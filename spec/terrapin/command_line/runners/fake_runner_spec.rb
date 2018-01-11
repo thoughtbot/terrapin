@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cocaine::CommandLine::FakeRunner do
+describe Terrapin::CommandLine::FakeRunner do
   it 'records commands' do
     subject.call("some command", :environment)
     subject.call("other command", :other_environment)

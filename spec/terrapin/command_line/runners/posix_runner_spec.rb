@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Cocaine::CommandLine::PosixRunner do
-  if Cocaine::CommandLine::PosixRunner.supported?
+describe Terrapin::CommandLine::PosixRunner do
+  if Terrapin::CommandLine::PosixRunner.supported?
     it_behaves_like 'a command that does not block'
 
     it 'runs the command given and captures the output' do
@@ -27,7 +27,7 @@ describe Cocaine::CommandLine::PosixRunner do
     end
 
     it "runs the command it's given and allows access to stderr afterwards" do
-      cmd = Cocaine::CommandLine.new(
+      cmd = Terrapin::CommandLine.new(
         "ruby",
         "-e '$stdout.puts %{hello}; $stderr.puts %{goodbye}'",
         :swallow_stderr => false

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Cocaine::CommandLine::PopenRunner do
-  if Cocaine::CommandLine::PopenRunner.supported?
+describe Terrapin::CommandLine::BackticksRunner do
+  if Terrapin::CommandLine::BackticksRunner.supported?
     it_behaves_like 'a command that does not block'
 
     it 'runs the command given and captures the output in an Output' do

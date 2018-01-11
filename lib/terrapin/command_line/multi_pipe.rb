@@ -1,4 +1,4 @@
-module Cocaine
+module Terrapin
   class CommandLine
     class MultiPipe
       def initialize

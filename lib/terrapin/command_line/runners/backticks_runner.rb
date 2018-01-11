@@ -2,7 +2,7 @@
 
 require 'climate_control'
 
-module Cocaine
+module Terrapin
   class CommandLine
     class BackticksRunner
       def self.supported?

@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-module Cocaine
+module Terrapin
   class OSDetector
     def java?
       arch =~ /java/

@@ -8,6 +8,6 @@ task :default => 'spec:unit'
 namespace :spec do
   desc "Run unit specs"
   RSpec::Core::RakeTask.new('unit') do |t|
-    t.pattern = 'spec/cocaine/**/*_spec.rb'
+    t.pattern = 'spec/terrapin/**/*_spec.rb'
   end
 end

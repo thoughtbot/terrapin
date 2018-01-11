@@ -1,5 +1,5 @@
 # coding: UTF-8
 
-module Cocaine
+module Terrapin
   VERSION = "0.5.8".freeze
 end

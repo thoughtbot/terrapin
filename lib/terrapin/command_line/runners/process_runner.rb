@@ -1,12 +1,10 @@
 # coding: UTF-8
 
-module Cocaine
+module Terrapin
   class CommandLine
-    class PosixRunner
+    class ProcessRunner
       def self.available?
-        return @available unless @available.nil?
-
-        @available = posix_spawn_gem_available?
+        Process.respond_to?(:spawn)
       end
 
       def self.supported?
@@ -29,21 +27,15 @@ module Cocaine
       private
 
       def spawn(*args)
-        POSIX::Spawn.spawn(*args)
+        Process.spawn(*args)
       end
 
       def waitpid(pid)
         Process.waitpid(pid)
+      rescue Errno::ECHILD
+        # In JRuby, waiting on a finished pid raises.
       end
 
-      def self.posix_spawn_gem_available?
-        require 'posix/spawn'
-        true
-      rescue LoadError
-        false
-      end
-
-      private_class_method :posix_spawn_gem_available?
     end
   end
 end

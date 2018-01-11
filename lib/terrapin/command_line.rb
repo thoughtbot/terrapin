@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-module Cocaine
+module Terrapin
   class CommandLine
     class << self
       attr_accessor :logger, :runner
@@ -73,13 +73,13 @@ module Cocaine
         log("#{colored("Command")} :: #{full_command}")
         @output = execute(full_command)
       rescue Errno::ENOENT => e
-        raise Cocaine::CommandNotFoundError, e.message
+        raise Terrapin::CommandNotFoundError, e.message
       ensure
         @exit_status = $?.respond_to?(:exitstatus) ? $?.exitstatus : 0
       end
 
       if @exit_status == 127
-        raise Cocaine::CommandNotFoundError
+        raise Terrapin::CommandNotFoundError
       end
 
       unless @expected_outcodes.include?(@exit_status)
@@ -88,7 +88,7 @@ module Cocaine
           "Here is the command output: STDOUT:\n", command_output,
           "\nSTDERR:\n", command_error_output
         ].join("\n")
-        raise Cocaine::ExitStatusError, message
+        raise Terrapin::ExitStatusError, message
       end
       command_output
     end

@@ -1,4 +1,4 @@
-class Cocaine::CommandLine::Output
+class Terrapin::CommandLine::Output
   def initialize(output = nil, error_output = nil)
     @output = output
     @error_output = error_output

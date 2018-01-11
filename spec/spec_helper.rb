@@ -1,7 +1,7 @@
 require 'rspec'
 require 'mocha/api'
 require 'bourne'
-require 'cocaine'
+require 'terrapin'
 require 'timeout'
 require 'tempfile'
 require 'pry'

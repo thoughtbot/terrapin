@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-module Cocaine
+module Terrapin
   class CommandLineError < StandardError; end
   class CommandNotFoundError < CommandLineError; end
   class ExitStatusError < CommandLineError; end

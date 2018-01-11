@@ -1,15 +1,15 @@
 $LOAD_PATH.push File.expand_path("../lib", __FILE__)
-require 'cocaine/version'
+require 'terrapin/version'
 
 Gem::Specification.new do |s|
-  s.name              = "cocaine"
-  s.version           = Cocaine::VERSION.dup
+  s.name              = "terrapin"
+  s.version           = Terrapin::VERSION.dup
   s.platform          = Gem::Platform::RUBY
   s.author            = "Jon Yurek"
   s.email             = "jyurek@thoughtbot.com"
-  s.homepage          = "https://github.com/thoughtbot/cocaine"
-  s.summary           = "A small library for doing (command) lines"
-  s.description       = "A small library for doing (command) lines"
+  s.homepage          = "https://github.com/thoughtbot/terrapin"
+  s.summary           = "Run shell commands wth user-supplied values safely"
+  s.description       = "Run shell commands wth user-supplied values safely"
   s.license           = "MIT"
 
   s.files         = `git ls-files`.split("\n")

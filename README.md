@@ -1,15 +1,15 @@
-# Cocaine [![Build Status](https://secure.travis-ci.org/thoughtbot/cocaine.png?branch=master)](http://travis-ci.org/thoughtbot/cocaine)
+# Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.png?branch=master)](http://travis-ci.org/thoughtbot/terrapin)
 
 A small library for doing (command) lines.
 
-[API reference](http://rubydoc.info/gems/cocaine/)
+[API reference](http://rubydoc.info/gems/terrapin/)
 
 ## Usage
 
 The basic, normal stuff:
 
 ```ruby
-line = Cocaine::CommandLine.new("echo", "hello 'world'")
+line = Terrapin::CommandLine.new("echo", "hello 'world'")
 line.command # => "echo hello 'world'"
 line.run # => "hello world\n"
 ```
@@ -17,7 +17,7 @@ line.run # => "hello world\n"
 Interpolated arguments:
 
 ```ruby
-line = Cocaine::CommandLine.new("convert", ":in -scale :resolution :out")
+line = Terrapin::CommandLine.new("convert", ":in -scale :resolution :out")
 line.command(in: "omg.jpg",
              resolution: "32x32",
              out: "omg_thumb.jpg")
@@ -27,10 +27,10 @@ line.command(in: "omg.jpg",
 It prevents attempts at being bad:
 
 ```ruby
-line = Cocaine::CommandLine.new("cat", ":file")
+line = Terrapin::CommandLine.new("cat", ":file")
 line.command(file: "haha`rm -rf /`.txt") # => "cat 'haha`rm -rf /`.txt'"
 
-line = Cocaine::CommandLine.new("cat", ":file")
+line = Terrapin::CommandLine.new("cat", ":file")
 line.command(file: "ohyeah?'`rm -rf /`.ha!") # => "cat 'ohyeah?'\\''`rm -rf /`.ha!'"
 ```
 
@@ -38,7 +38,7 @@ NOTE: It only does that for arguments interpolated via `run`, NOT arguments
 passed into `new` (see 'Security' below):
 
 ```ruby
-line = Cocaine::CommandLine.new("echo", "haha`whoami`")
+line = Terrapin::CommandLine.new("echo", "haha`whoami`")
 line.command # => "echo haha`whoami`"
 line.run # => "hahawebserver"
 ```
@@ -46,7 +46,7 @@ line.run # => "hahawebserver"
 You can ignore the result:
 
 ```ruby
-line = Cocaine::CommandLine.new("noisy", "--extra-verbose", swallow_stderr: true)
+line = Terrapin::CommandLine.new("noisy", "--extra-verbose", swallow_stderr: true)
 line.command # => "noisy --extra-verbose 2>/dev/null"
 
 # ... and on Windows...
@@ -56,10 +56,10 @@ line.command # => "noisy --extra-verbose 2>NUL"
 If your command errors, you get an exception:
 
 ```ruby
-line = Cocaine::CommandLine.new("git", "commit")
+line = Terrapin::CommandLine.new("git", "commit")
 begin
   line.run
-rescue Cocaine::ExitStatusError => e
+rescue Terrapin::ExitStatusError => e
   e.message # => "Command 'git commit' returned 1. Expected 0"
 end
 ```
@@ -67,10 +67,10 @@ end
 If your command might return something non-zero, and you expect that, it's cool:
 
 ```ruby
-line = Cocaine::CommandLine.new("/usr/bin/false", "", expected_outcodes: [0, 1])
+line = Terrapin::CommandLine.new("/usr/bin/false", "", expected_outcodes: [0, 1])
 begin
   line.run
-rescue Cocaine::ExitStatusError => e
+rescue Terrapin::ExitStatusError => e
   # => You never get here!
 end
 ```
@@ -78,10 +78,10 @@ end
 You don't have the command? You get an exception:
 
 ```ruby
-line = Cocaine::CommandLine.new("lolwut")
+line = Terrapin::CommandLine.new("lolwut")
 begin
   line.run
-rescue Cocaine::CommandNotFoundError => e
+rescue Terrapin::CommandNotFoundError => e
   e # => the command isn't in the $PATH for this process.
 end
 ```
@@ -89,8 +89,8 @@ end
 But don't fear, you can specify where to look for the command:
 
 ```ruby
-Cocaine::CommandLine.path = "/opt/bin"
-line = Cocaine::CommandLine.new("lolwut")
+Terrapin::CommandLine.path = "/opt/bin"
+line = Terrapin::CommandLine.new("lolwut")
 line.command # => "lolwut", but it looks in /opt/bin for it.
 ```
 
@@ -99,30 +99,30 @@ You can even give it a bunch of places to look:
 ```ruby
     FileUtils.rm("/opt/bin/lolwut")
     File.open('/usr/local/bin/lolwut') {|f| f.write('echo Hello') }
-    Cocaine::CommandLine.path = ["/opt/bin", "/usr/local/bin"]
-    line = Cocaine::CommandLine.new("lolwut")
+    Terrapin::CommandLine.path = ["/opt/bin", "/usr/local/bin"]
+    line = Terrapin::CommandLine.new("lolwut")
     line.run # => prints 'Hello', because it searches the path
 ```
 
 Or just put it in the command:
 
 ```ruby
-line = Cocaine::CommandLine.new("/opt/bin/lolwut")
+line = Terrapin::CommandLine.new("/opt/bin/lolwut")
 line.command # => "/opt/bin/lolwut"
 ```
 
 You can see what's getting run. The 'Command' part it logs is in green for visibility!
 
 ```ruby
-line = Cocaine::CommandLine.new("echo", ":var", logger: Logger.new(STDOUT))
+line = Terrapin::CommandLine.new("echo", ":var", logger: Logger.new(STDOUT))
 line.run(var: "LOL!") # => Logs this with #info -> Command :: echo 'LOL!'
 ```
 
 Or log every command:
 
 ```ruby
-Cocaine::CommandLine.logger = Logger.new(STDOUT)
-Cocaine::CommandLine.new("date").run # => Logs this -> Command :: date
+Terrapin::CommandLine.logger = Logger.new(STDOUT)
+Terrapin::CommandLine.new("date").run # => Logs this -> Command :: date
 ```
 
 ## Security
@@ -130,9 +130,9 @@ Cocaine::CommandLine.new("date").run # => Logs this -> Command :: date
 Short version: Only pass user-generated data into the `run` method and NOT
 `new`.
 
-As shown in examples above, Cocaine will only shell-escape what is passed in as
+As shown in examples above, Terrapin will only shell-escape what is passed in as
 interpolations to the `run` method. It WILL NOT escape what is passed in to the
-second argument of `new`. Cocaine assumes that you will not be manually
+second argument of `new`. Terrapin assumes that you will not be manually
 passing user-generated data to that argument and will be using it as a template
 for your command line's structure.
 
@@ -147,7 +147,7 @@ if you don't use bundler, install the gem.
 
 ## Runners
 
-Cocaine will attempt to choose from among 3 different ways of running commands.
+Terrapin will attempt to choose from among 3 different ways of running commands.
 The simplest is using backticks, and is the default in 1.8. In Ruby 1.9, it
 will attempt to use `Process.spawn`. And, as mentioned above, if the
 `posix-spawn` gem is installed, it will attempt to use that. If for some reason
@@ -155,7 +155,7 @@ one of the `.spawn` runners don't work for you, you can override them manually
 by setting a new runner, like so:
 
 ```ruby
-Cocaine::CommandLine.runner = Cocaine::CommandLine::BackticksRunner.new
+Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
 ```
 
 And if you really want to, you can define your own Runner, though I can't
@@ -167,22 +167,22 @@ imagine why you would.
 
 If you get `Error::ECHILD` errors and are using JRuby, there is a very good
 chance that the error is actually in JRuby. This was brought to our attention
-in https://github.com/thoughtbot/cocaine/issues/24 and probably fixed in
+in https://github.com/thoughtbot/terrapin/issues/24 and probably fixed in
 http://jira.codehaus.org/browse/JRUBY-6162. You *will* want to use the
 `BackticksRunner` if you are unable to update JRuby.
 
 #### Spawn warning
 
-If you get `unsupported spawn option: out` warning (like in [issue 38](https://github.com/thoughtbot/cocaine/issues/38)),
+If you get `unsupported spawn option: out` warning (like in [issue 38](https://github.com/thoughtbot/terrapin/issues/38)),
 try to use `PopenRunner`:
 
 ```ruby
-Cocaine::CommandLine.runner = Cocaine::CommandLine::PopenRunner.new
+Terrapin::CommandLine.runner = Terrapin::CommandLine::PopenRunner.new
 ```
 
 ## Thread Safety
 
-Cocaine should be thread safe. As discussed [here, in this climate_control
+Terrapin should be thread safe. As discussed [here, in this climate_control
 thread](https://github.com/thoughtbot/climate_control/pull/11), climate_control,
 which modifies the environment under which commands are run for the
 BackticksRunner and PopenRunner, is thread-safe but not reentrant. Please let us
@@ -195,15 +195,15 @@ know if you find this is ever not the case.
 
 Question? Idea? Problem? Bug? Comment? Concern? Like using question marks?
 
-[GitHub Issues For All!](https://github.com/thoughtbot/cocaine/issues)
+[GitHub Issues For All!](https://github.com/thoughtbot/terrapin/issues)
 
 ## Credits
 
-Thank you to all [the contributors](https://github.com/thoughtbot/cocaine/graphs/contributors)!
+Thank you to all [the contributors](https://github.com/thoughtbot/terrapin/graphs/contributors)!
 
 ![thoughtbot](http://thoughtbot.com/logo.png)
 
-Cocaine is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
+Terrapin is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
 
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
 
@@ -211,5 +211,5 @@ The names and logos for thoughtbot are trademarks of thoughtbot, inc.
 
 Copyright 2011-2014 Jon Yurek and thoughtbot, inc. This is free software, and
 may be redistributed under the terms specified in the
-[LICENSE](https://github.com/thoughtbot/cocaine/blob/master/LICENSE)
+[LICENSE](https://github.com/thoughtbot/terrapin/blob/master/LICENSE)
 file.
