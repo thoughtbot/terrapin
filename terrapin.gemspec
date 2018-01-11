@@ -8,13 +8,13 @@ Gem::Specification.new do |s|
   s.author            = "Jon Yurek"
   s.email             = "jyurek@thoughtbot.com"
   s.homepage          = "https://github.com/thoughtbot/terrapin"
-  s.summary           = "Run shell commands wth user-supplied values safely"
-  s.description       = "Run shell commands wth user-supplied values safely"
+  s.summary           = "Run shell commands safely, even with user-supplied values"
+  s.description       = "Run shell commands safely, even with user-supplied values"
   s.license           = "MIT"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{|f| File.basename(f)}
   s.require_paths = ["lib"]
 
   s.add_dependency('climate_control', '>= 0.0.3', '< 1.0')
