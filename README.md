@@ -1,6 +1,6 @@
 # Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.png?branch=master)](http://travis-ci.org/thoughtbot/terrapin)
 
-A small library for doing (command) lines.
+Run shell commands safely, even with user-supplied values
 
 [API reference](http://rubydoc.info/gems/terrapin/)
 
@@ -40,7 +40,15 @@ passed into `new` (see 'Security' below):
 ```ruby
 line = Terrapin::CommandLine.new("echo", "haha`whoami`")
 line.command # => "echo haha`whoami`"
-line.run # => "hahawebserver"
+line.run # => "hahawebserver\n"
+```
+
+This is the right way:
+
+```ruby
+line = Terrapin::CommandLine.new("echo", "haha:whoami")
+line.command(whoami: "`whoami`") # => "echo haha'`whoami`'"
+line.run(whoami: "`whoami`") # => "haha`whoami`\n"
 ```
 
 You can ignore the result:
@@ -111,7 +119,8 @@ line = Terrapin::CommandLine.new("/opt/bin/lolwut")
 line.command # => "/opt/bin/lolwut"
 ```
 
-You can see what's getting run. The 'Command' part it logs is in green for visibility!
+You can see what's getting run. The 'Command' part it logs is in green for
+visibility! (where applicable)
 
 ```ruby
 line = Terrapin::CommandLine.new("echo", ":var", logger: Logger.new(STDOUT))
@@ -173,8 +182,9 @@ http://jira.codehaus.org/browse/JRUBY-6162. You *will* want to use the
 
 #### Spawn warning
 
-If you get `unsupported spawn option: out` warning (like in [issue 38](https://github.com/thoughtbot/terrapin/issues/38)),
-try to use `PopenRunner`:
+If you get `unsupported spawn option: out` warning (like in [issue
+38](https://github.com/thoughtbot/terrapin/issues/38)), try to use
+`PopenRunner`:
 
 ```ruby
 Terrapin::CommandLine.runner = Terrapin::CommandLine::PopenRunner.new
@@ -199,17 +209,19 @@ Question? Idea? Problem? Bug? Comment? Concern? Like using question marks?
 
 ## Credits
 
-Thank you to all [the contributors](https://github.com/thoughtbot/terrapin/graphs/contributors)!
+Thank you to all [the
+contributors](https://github.com/thoughtbot/terrapin/graphs/contributors)!
 
 ![thoughtbot](http://thoughtbot.com/logo.png)
 
-Terrapin is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
+Terrapin is maintained and funded by [thoughtbot,
+inc](http://thoughtbot.com/community)
 
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
 
 ## License
 
-Copyright 2011-2014 Jon Yurek and thoughtbot, inc. This is free software, and
+Copyright 2011-2018 Jon Yurek and thoughtbot, inc. This is free software, and
 may be redistributed under the terms specified in the
 [LICENSE](https://github.com/thoughtbot/terrapin/blob/master/LICENSE)
 file.
