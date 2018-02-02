@@ -49,8 +49,16 @@ module Terrapin
     attr_reader :exit_status, :runner
 
     def initialize(binary, params = "", options = {})
-      @binary            = binary.dup
-      @params            = params.dup
+      @binary = binary.dup
+      if params.nil?
+        raise ArgumentError, "2nd argument to CommandLine.new should be a " \
+          "string representing the command line options"
+      end
+      @params = params.dup
+      if options.nil?
+        raise ArgumentError, "3rd argument to CommandLine.new should be a" \
+          "hash of values that will be interpolated into the command line"
+      end
       @options           = options.dup
       @runner            = @options.delete(:runner) || self.class.runner
       @logger            = @options.delete(:logger) || self.class.logger

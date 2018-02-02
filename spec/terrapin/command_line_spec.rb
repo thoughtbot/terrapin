@@ -6,6 +6,18 @@ describe Terrapin::CommandLine do
     on_unix! # Assume we're on unix unless otherwise specified.
   end
 
+  describe ".new" do
+    it "raises when given nil params" do
+      expect { Terrapin::CommandLine.new("echo", nil) }
+        .to raise_error(ArgumentError)
+    end
+
+    it "raises when given nil options" do
+      expect { Terrapin::CommandLine.new("echo", "", nil) }
+        .to raise_error(ArgumentError)
+    end
+  end
+
   it "takes a command and parameters and produces a Bash command line" do
     cmd = Terrapin::CommandLine.new("convert", "a.jpg b.png", :swallow_stderr => false)
     cmd.command.should == "convert a.jpg b.png"
