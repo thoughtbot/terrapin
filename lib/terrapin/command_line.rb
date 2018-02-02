@@ -49,21 +49,20 @@ module Terrapin
     attr_reader :exit_status, :runner
 
     def initialize(binary, params = "", options = {})
-      @binary = binary.dup
-      @params = params.to_s.dup
-
       if options.nil?
         raise ArgumentError, "3rd argument to CommandLine.new should be a" \
           "hash of values that will be interpolated into the command line"
       end
-      @options           = options.dup
 
-      @runner            = @options.delete(:runner) || self.class.runner
-      @logger            = @options.delete(:logger) || self.class.logger
-      @swallow_stderr    = @options.delete(:swallow_stderr)
+      @options = options.dup
+      @binary = binary.dup
+      @params = params.to_s.dup
+      @runner = @options.delete(:runner) || self.class.runner
+      @logger = @options.delete(:logger) || self.class.logger
+      @swallow_stderr = @options.delete(:swallow_stderr)
       @expected_outcodes = @options.delete(:expected_outcodes) || [0]
-      @environment       = @options.delete(:environment) || {}
-      @runner_options    = @options.delete(:runner_options) || {}
+      @environment = @options.delete(:environment) || {}
+      @runner_options = @options.delete(:runner_options) || {}
     end
 
     def command(interpolations = {})
