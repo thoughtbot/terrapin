@@ -7,9 +7,9 @@ describe Terrapin::CommandLine do
   end
 
   describe ".new" do
-    it "raises when given nil params" do
-      expect { Terrapin::CommandLine.new("echo", nil) }
-        .to raise_error(ArgumentError)
+    it "treats nil params as blank" do
+      cmd =  Terrapin::CommandLine.new("echo", nil)
+      expect(cmd.run).to eq("\n")
     end
 
     it "raises when given nil options" do
