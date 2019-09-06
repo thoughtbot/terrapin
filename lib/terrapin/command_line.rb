@@ -89,7 +89,7 @@ module Terrapin
 
       unless @expected_outcodes.include?(@exit_status)
         message = [
-          "Command '#{full_command}' returned #{@exit_status}. Expected #{@expected_outcodes.join(", ")}",
+          "Command '#{full_command}' returned #{@exit_status.inspect}. Expected #{@expected_outcodes.join(", ")}",
           "Here is the command output: STDOUT:\n", command_output,
           "\nSTDERR:\n", command_error_output
         ].join("\n")
