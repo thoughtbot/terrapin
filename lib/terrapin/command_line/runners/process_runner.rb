@@ -35,7 +35,6 @@ module Terrapin
       rescue Errno::ECHILD
         # In JRuby, waiting on a finished pid raises.
       end
-
     end
   end
 end

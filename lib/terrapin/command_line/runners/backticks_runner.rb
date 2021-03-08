@@ -24,7 +24,6 @@ module Terrapin
       def with_modified_environment(env, &block)
         ClimateControl.modify(env, &block)
       end
-
     end
   end
 end
