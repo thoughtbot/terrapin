@@ -1,0 +1,33 @@
+name: CI
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    name: Ruby ${{ matrix.ruby }}
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - jruby-19mode
+          - "1.9"
+          - "2.0"
+          - "2.1"
+          - "2.2"
+          - "2.3"
+          - "2.4"
+          - "2.5"
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Setup project
+        run: bundle install
+      - name: Run test
+        run: bundle exec rake
