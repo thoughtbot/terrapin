@@ -5,8 +5,8 @@ shared_examples_for "a command that does not block" do
 
     Timeout.timeout(5) do
       output = subject.call("cat '#{garbage_file.path}'")
-      $?.exitstatus.should == 0
-      output.output.length.should == 10 * 1024 * 1024
+      expect($?.exitstatus).to eq(0)
+      expect(output.output.length).to eq(10 * 1024 * 1024)
     end
 
     garbage_file.close

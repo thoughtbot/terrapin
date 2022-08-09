@@ -16,9 +16,9 @@ describe Terrapin::CommandLine::BackticksRunner do
 
     it 'sets the exitstatus when a command completes' do
       subject.call("ruby -e 'exit 0'")
-      $?.exitstatus.should == 0
+      expect($?.exitstatus).to eq(0)
       subject.call("ruby -e 'exit 5'")
-      $?.exitstatus.should == 5
+      expect($?.exitstatus).to eq(5)
     end
   end
 end
