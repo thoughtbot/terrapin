@@ -52,7 +52,6 @@ describe "When an error happens" do
   end
 
   it "does not blow up if running the command errored before execution" do
-    assuming_no_processes_have_been_run
     command = Terrapin::CommandLine.new("echo", ":hello_world")
     command.stubs(:command).raises("An Error")
 
