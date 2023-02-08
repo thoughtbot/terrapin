@@ -5,7 +5,7 @@ describe "When an error happens" do
     cmd = Terrapin::CommandLine.new("echo", "hello")
     cmd.stubs(:execute)
     with_exitstatus_returning(1) do
-      lambda { cmd.run }.should raise_error(Terrapin::CommandLineError)
+      expect { cmd.run }.to raise_error(Terrapin::CommandLineError)
     end
   end
 
@@ -13,7 +13,7 @@ describe "When an error happens" do
     cmd = Terrapin::CommandLine.new("echo", "hello", expected_outcodes: [0, 1])
     cmd.stubs(:execute)
     with_exitstatus_returning(1) do
-      lambda { cmd.run }.should_not raise_error
+      expect { cmd.run }.not_to raise_error
     end
   end
 
@@ -27,7 +27,7 @@ describe "When an error happens" do
       begin
         cmd.run
       rescue Terrapin::ExitStatusError => e
-        e.message.should =~ /STDERR:\s+#{error_output}/
+        expect(e.message).to match(/STDERR:\s+#{error_output}/)
       end
     end
   end
@@ -48,7 +48,7 @@ describe "When an error happens" do
     with_exitstatus_returning(1) do
       cmd.run rescue nil
     end
-    cmd.exit_status.should == 1
+    expect(cmd.exit_status).to eq(1)
   end
 
   it "does not blow up if running the command errored before execution" do
@@ -56,7 +56,7 @@ describe "When an error happens" do
     command = Terrapin::CommandLine.new("echo", ":hello_world")
     command.stubs(:command).raises("An Error")
 
-    lambda{ command.run }.should raise_error("An Error")
-    command.exit_status.should eq 0
+    expect{ command.run }.to raise_error("An Error")
+    expect(command.exit_status).to eq 0
   end
 end
