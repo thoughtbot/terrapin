@@ -38,7 +38,7 @@ module Terrapin
       private
 
       def best_runner
-        [PosixRunner, ProcessRunner, BackticksRunner].detect do |runner|
+        [ProcessRunner, BackticksRunner].detect do |runner|
           runner.supported?
         end.new
       end

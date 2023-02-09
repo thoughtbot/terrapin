@@ -3,7 +3,6 @@ require 'spec_helper'
 describe "When picking a Runner" do
   it "uses the BackticksRunner by default" do
     Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(false)
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(false)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
 
@@ -12,32 +11,9 @@ describe "When picking a Runner" do
 
   it "uses the ProcessRunner on 1.9 and it's available" do
     Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(true)
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(false)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
     expect(cmd.runner.class).to eq(Terrapin::CommandLine::ProcessRunner)
-  end
-
-  it "uses the PosixRunner if the PosixRunner is available" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
-
-    cmd = Terrapin::CommandLine.new("echo", "hello")
-    expect(cmd.runner.class).to eq(Terrapin::CommandLine::PosixRunner)
-  end
-
-  it "uses the BackticksRunner if the PosixRunner is available, but we told it to use Backticks all the time" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
-    Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
-
-    cmd = Terrapin::CommandLine.new("echo", "hello")
-    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
-  end
-
-  it "uses the BackticksRunner if the PosixRunner is available, but we told it to use Backticks" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
-
-    cmd = Terrapin::CommandLine.new("echo", "hello", :runner => Terrapin::CommandLine::BackticksRunner.new)
-    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
   end
 
   it "can go into 'Fake' mode" do
@@ -78,7 +54,6 @@ describe 'When running an executable in the supplemental path' do
   [
     Terrapin::CommandLine::BackticksRunner,
     Terrapin::CommandLine::PopenRunner,
-    Terrapin::CommandLine::PosixRunner,
     Terrapin::CommandLine::ProcessRunner
   ].each do |runner_class|
     if runner_class.supported?
