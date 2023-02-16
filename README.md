@@ -145,23 +145,22 @@ second argument of `new`. Terrapin assumes that you will not be manually
 passing user-generated data to that argument and will be using it as a template
 for your command line's structure.
 
-## POSIX Spawn
-
-You can potentially increase performance by installing [the posix-spawn
-gem](https://rubygems.org/gems/posix-spawn). This gem can keep your
-application's heap from being copied when forking command line
-processes. For applications with large heaps the gain can be
-significant. To include `posix-spawn`, simply add it to your `Gemfile` or,
-if you don't use bundler, install the gem.
-
 ## Runners
 
-Terrapin will attempt to choose from among 3 different ways of running commands.
-The simplest is using backticks, and is the default in 1.8. In Ruby 1.9, it
-will attempt to use `Process.spawn`. And, as mentioned above, if the
-`posix-spawn` gem is installed, it will attempt to use that. If for some reason
-one of the `.spawn` runners don't work for you, you can override them manually
-by setting a new runner, like so:
+Terrapin will choose from among a couple different ways of running commands.
+The simplest is `Process.spawn`, which is also the default. Terrapin can also just use [backticks], so if for some reason you'd prefer that, you can ask Terrapin to use that:
+
+```ruby
+Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
+```
+
+And if you really want to, you can define your own Runner, though I can't imagine why you would.
+
+[backticks]: https://ruby-doc.org/3.2.1/Kernel.html#method-i-60
+
+Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
+And if you really want to, you can define your own Runner, though I can't
+imagine why you would.
 
 ```ruby
 Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
