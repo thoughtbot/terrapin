@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "When picking a Runner" do
   it "uses the BackticksRunner by default" do
-    Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(false)
+    expect(Terrapin::CommandLine::ProcessRunner).to receive(:supported?).and_return(false)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
 
@@ -10,10 +10,22 @@ describe "When picking a Runner" do
   end
 
   it "uses the ProcessRunner on 1.9 and it's available" do
-    Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(true)
+    expect(Terrapin::CommandLine::ProcessRunner).to receive(:supported?).and_return(true)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
     expect(cmd.runner.class).to eq(Terrapin::CommandLine::ProcessRunner)
+  end
+
+  it "uses the BackticksRunner if we told it to use Backticks all the time" do
+    Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
+
+    cmd = Terrapin::CommandLine.new("echo", "hello")
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
+  end
+
+  it "uses the BackticksRunner, if we told it to use Backticks" do
+    cmd = Terrapin::CommandLine.new("echo", "hello", :runner => Terrapin::CommandLine::BackticksRunner.new)
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
   end
 
   it "can go into 'Fake' mode" do
