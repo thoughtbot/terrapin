@@ -19,10 +19,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency('climate_control', '>= 0.0.3', '< 1.0')
   s.add_development_dependency('rspec')
-  s.add_development_dependency('bourne')
-  s.add_development_dependency('mocha')
   s.add_development_dependency('rake')
   s.add_development_dependency('activesupport', ">= 3.0.0", "< 5.0")
-  s.add_development_dependency('pry')
+  s.add_development_dependency('pry', '=0.9.9')
 end
 

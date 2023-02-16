@@ -3,38 +3,36 @@ require 'spec_helper'
 describe "When an error happens" do
   it "raises a CommandLineError if the result code command isn't expected" do
     cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.stubs(:execute)
+    expect(cmd).to receive(:execute)
     with_exitstatus_returning(1) do
-      lambda { cmd.run }.should raise_error(Terrapin::CommandLineError)
+      expect { cmd.run }.to raise_error(Terrapin::CommandLineError)
     end
   end
 
   it "does not raise if the result code is expected, even if nonzero" do
     cmd = Terrapin::CommandLine.new("echo", "hello", expected_outcodes: [0, 1])
-    cmd.stubs(:execute)
+    expect(cmd).to receive(:execute)
     with_exitstatus_returning(1) do
-      lambda { cmd.run }.should_not raise_error
+      expect { cmd.run }.not_to raise_error
     end
   end
 
   it "adds command output to exception message if the result code is nonzero" do
     cmd = Terrapin::CommandLine.new("echo", "hello")
     error_output = "Error 315"
-    cmd.
-      stubs(:execute).
-      returns(Terrapin::CommandLine::Output.new("", error_output))
+    expect(cmd).to receive(:execute).and_return(Terrapin::CommandLine::Output.new("", error_output))
     with_exitstatus_returning(1) do
       begin
         cmd.run
       rescue Terrapin::ExitStatusError => e
-        e.message.should =~ /STDERR:\s+#{error_output}/
+        expect(e.message).to match(/STDERR:\s+#{error_output}/)
       end
     end
   end
 
   it 'passes the error message to the exception when command is not found' do
     cmd = Terrapin::CommandLine.new('test', '')
-    cmd.stubs(:execute).raises(Errno::ENOENT.new("not found"))
+    expect(cmd).to receive(:execute).and_raise(Errno::ENOENT.new("not found"))
     begin
       cmd.run
     rescue Terrapin::CommandNotFoundError => e
@@ -44,19 +42,18 @@ describe "When an error happens" do
 
   it "should keep result code in #exitstatus" do
     cmd = Terrapin::CommandLine.new("convert")
-    cmd.stubs(:execute).with("convert").returns(:correct_value)
+    expect(cmd).to receive(:execute).with("convert").and_return(:correct_value)
     with_exitstatus_returning(1) do
       cmd.run rescue nil
     end
-    cmd.exit_status.should == 1
+    expect(cmd.exit_status).to eq(1)
   end
 
   it "does not blow up if running the command errored before execution" do
-    assuming_no_processes_have_been_run
-    command = Terrapin::CommandLine.new("echo", ":hello_world")
-    command.stubs(:command).raises("An Error")
+    cmd = Terrapin::CommandLine.new("echo", ":hello_world")
+    expect(cmd).to receive(:command).and_raise("An Error")
 
-    lambda{ command.run }.should raise_error("An Error")
-    command.exit_status.should eq 0
+    expect{ cmd.run }.to raise_error("An Error")
+    expect(cmd.exit_status).to eq 0
   end
 end

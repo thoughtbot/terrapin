@@ -2,49 +2,37 @@ require 'spec_helper'
 
 describe "When picking a Runner" do
   it "uses the BackticksRunner by default" do
-    Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(false)
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(false)
+    expect(Terrapin::CommandLine::ProcessRunner).to receive(:supported?).and_return(false)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
 
-    cmd.runner.class.should == Terrapin::CommandLine::BackticksRunner
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
   end
 
   it "uses the ProcessRunner on 1.9 and it's available" do
-    Terrapin::CommandLine::ProcessRunner.stubs(:supported?).returns(true)
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(false)
+    expect(Terrapin::CommandLine::ProcessRunner).to receive(:supported?).and_return(true)
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.runner.class.should == Terrapin::CommandLine::ProcessRunner
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::ProcessRunner)
   end
 
-  it "uses the PosixRunner if the PosixRunner is available" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
-
-    cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.runner.class.should == Terrapin::CommandLine::PosixRunner
-  end
-
-  it "uses the BackticksRunner if the PosixRunner is available, but we told it to use Backticks all the time" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
+  it "uses the BackticksRunner if we told it to use Backticks all the time" do
     Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.runner.class.should == Terrapin::CommandLine::BackticksRunner
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
   end
 
-  it "uses the BackticksRunner if the PosixRunner is available, but we told it to use Backticks" do
-    Terrapin::CommandLine::PosixRunner.stubs(:supported?).returns(true)
-
+  it "uses the BackticksRunner, if we told it to use Backticks" do
     cmd = Terrapin::CommandLine.new("echo", "hello", :runner => Terrapin::CommandLine::BackticksRunner.new)
-    cmd.runner.class.should == Terrapin::CommandLine::BackticksRunner
+    expect(cmd.runner.class).to eq(Terrapin::CommandLine::BackticksRunner)
   end
 
   it "can go into 'Fake' mode" do
     Terrapin::CommandLine.fake!
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.runner.class.should eq Terrapin::CommandLine::FakeRunner
+    expect(cmd.runner.class).to eq Terrapin::CommandLine::FakeRunner
   end
 
   it "can turn off Fake mode" do
@@ -52,14 +40,14 @@ describe "When picking a Runner" do
     Terrapin::CommandLine.unfake!
 
     cmd = Terrapin::CommandLine.new("echo", "hello")
-    cmd.runner.class.should_not eq Terrapin::CommandLine::FakeRunner
+    expect(cmd.runner.class).not_to eq Terrapin::CommandLine::FakeRunner
   end
 
   it "can use a FakeRunner even if not in Fake mode" do
     Terrapin::CommandLine.unfake!
 
     cmd = Terrapin::CommandLine.new("echo", "hello", :runner => Terrapin::CommandLine::FakeRunner.new)
-    cmd.runner.class.should eq Terrapin::CommandLine::FakeRunner
+    expect(cmd.runner.class).to eq Terrapin::CommandLine::FakeRunner
   end
 end
 
@@ -78,7 +66,6 @@ describe 'When running an executable in the supplemental path' do
   [
     Terrapin::CommandLine::BackticksRunner,
     Terrapin::CommandLine::PopenRunner,
-    Terrapin::CommandLine::PosixRunner,
     Terrapin::CommandLine::ProcessRunner
   ].each do |runner_class|
     if runner_class.supported?
