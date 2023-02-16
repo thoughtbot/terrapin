@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('mocha', '~> 1.9.0')
   s.add_development_dependency('rake')
   s.add_development_dependency('activesupport', ">= 3.0.0", "< 5.0")
-  s.add_development_dependency('pry')
+  s.add_development_dependency('pry', '=0.9.9')
 end
 
