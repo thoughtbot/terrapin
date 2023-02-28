@@ -105,11 +105,11 @@ line.command # => "lolwut", but it looks in /opt/bin for it.
 You can even give it a bunch of places to look:
 
 ```ruby
-    FileUtils.rm("/opt/bin/lolwut")
-    File.open('/usr/local/bin/lolwut') {|f| f.write('echo Hello') }
-    Terrapin::CommandLine.path = ["/opt/bin", "/usr/local/bin"]
-    line = Terrapin::CommandLine.new("lolwut")
-    line.run # => prints 'Hello', because it searches the path
+FileUtils.rm("/opt/bin/lolwut")
+File.open('/usr/local/bin/lolwut') { |f| f.write('echo Hello') }
+Terrapin::CommandLine.path = ["/opt/bin", "/usr/local/bin"]
+line = Terrapin::CommandLine.new("lolwut")
+line.run # => prints 'Hello', because it searches the path
 ```
 
 Or just put it in the command:
@@ -157,10 +157,6 @@ Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
 And if you really want to, you can define your own Runner, though I can't imagine why you would.
 
 [backticks]: https://ruby-doc.org/3.2.1/Kernel.html#method-i-60
-
-Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
-And if you really want to, you can define your own Runner, though I can't
-imagine why you would.
 
 ```ruby
 Terrapin::CommandLine.runner = Terrapin::CommandLine::BackticksRunner.new
