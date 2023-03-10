@@ -1,4 +1,4 @@
-# Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.png?branch=main)](http://travis-ci.org/thoughtbot/terrapin)
+# Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.svg?branch=main)](http://travis-ci.org/thoughtbot/terrapin)
 
 Run shell commands safely, even with user-supplied values
 
