@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency("climate_control")
+  s.add_dependency("climate_control", "1.2.0")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rake")
   s.add_development_dependency("activesupport", ">= 3.0.0", "< 5.0")
