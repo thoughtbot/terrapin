@@ -1,4 +1,4 @@
-# Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.png?branch=master)](http://travis-ci.org/thoughtbot/terrapin)
+# Terrapin [![Build Status](https://secure.travis-ci.org/thoughtbot/terrapin.svg?branch=main)](http://travis-ci.org/thoughtbot/terrapin)
 
 Run shell commands safely, even with user-supplied values
 
@@ -218,5 +218,5 @@ The names and logos for thoughtbot are trademarks of thoughtbot, inc.
 
 Copyright 2011-2018 Jon Yurek and thoughtbot, inc. This is free software, and
 may be redistributed under the terms specified in the
-[LICENSE](https://github.com/thoughtbot/terrapin/blob/master/LICENSE)
+[LICENSE](https://github.com/thoughtbot/terrapin/blob/main/LICENSE)
 file.
