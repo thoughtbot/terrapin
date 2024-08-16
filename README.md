@@ -207,16 +207,12 @@ Question? Idea? Problem? Bug? Comment? Concern? Like using question marks?
 Thank you to all [the
 contributors](https://github.com/thoughtbot/terrapin/graphs/contributors)!
 
-![thoughtbot](http://thoughtbot.com/logo.png)
-
-Terrapin is maintained and funded by [thoughtbot,
-inc](http://thoughtbot.com/community)
-
-The names and logos for thoughtbot are trademarks of thoughtbot, inc.
-
 ## License
 
-Copyright 2011-2018 Jon Yurek and thoughtbot, inc. This is free software, and
+Copyright © 2011 Jon Yurek and thoughtbot, inc. This is free software, and
 may be redistributed under the terms specified in the
 [LICENSE](https://github.com/thoughtbot/terrapin/blob/master/LICENSE)
 file.
+
+<!-- START /templates/footer.md -->
+<!-- END /templates/footer.md -->
