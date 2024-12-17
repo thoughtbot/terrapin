@@ -39,11 +39,11 @@ module Terrapin
       end
 
       def read_stream(io)
-        result = []
+        result = String.new
         while partial_result = io.read(8192)
           result << partial_result
         end
-        result.join
+        result
       end
     end
   end
