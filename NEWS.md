@@ -1,3 +1,12 @@
+New for 1.0.1:
+
+* Relax version requirement for `climate_control` dependency
+
+New for 1.0.0:
+
+* Terrapin::CommandLine::PosixRunner was removed. You can replace any usage of this with Terrapin::CommandLine::ProcessRunner, which uses Ruby’s builtin Process.spawn.
+* Moved CI from Travis to GH Actions.
+
 New for 0.6.0:
 
 * Rename the project to Terrapin

@@ -65,7 +65,7 @@ module Terrapin
       end
 
       def read_stream(io)
-        result = ""
+        result = String.new
         begin
           while partial_result = io.read_nonblock(8192)
             result << partial_result
