@@ -1,15 +1,13 @@
-shared_examples_for "a command that does not block" do
-  it "does not block if the command output a lot on stderr" do
-    cmd = Terrapin::CommandLine.new(
-      "ruby",
-      "-e '$stdout.puts %{hello}; $stderr.puts %{goodbye}*10_000'",
-      :swallow_stderr => false
-    )
-    Timeout.timeout(5) do
-      cmd.run
+shared_examples_for "a command that does not block" do |opts = {}|
+  if opts[:supports_stderr]
+    it "does not block if the command output a lot on stderr" do
+      Timeout.timeout(5) do
+        output = subject.call("ruby -e '$stdout.puts %{hello}; $stderr.puts %{goodbye}*10_000'")
+
+      expect(output.output).to eq "hello\n"
+      expect(output.error_output).to eq "#{"goodbye" * 10_000}\n"
+      end
     end
-    expect(cmd.command_output).to eq "hello\n"
-    expect(cmd.command_error_output).to eq "#{"goodbye" * 10_000}\n"
   end
 
   it 'does not block if the command outputs a lot of data' do
