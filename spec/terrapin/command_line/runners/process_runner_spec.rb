@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Terrapin::CommandLine::ProcessRunner do
   if Terrapin::CommandLine::ProcessRunner.supported?
-    it_behaves_like "a command that does not block"
+    it_behaves_like "a command that does not block", { :supports_stderr => true }
 
     it 'runs the command given and captures the output' do
       output = subject.call("echo hello")
