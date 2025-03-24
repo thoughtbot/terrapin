@@ -1,3 +1,15 @@
+New for 1.1.0:
+
+* Remove Travis CI configuration
+* Fix the stderr test
+* Add Ruby 3.3, 3.4 to the build matrix
+* Upgrade actions/checkout from v2 to v4
+* Upgrade JRuby to 9.4.12.0
+* Insert an inspect on the exit status
+* Don't hang on stderr
+* Add 'logger' as development dependency (fixes ruby 3.4 warning)
+* Use String.new to create a mutable string
+
 New for 1.0.1:
 
 * Relax version requirement for `climate_control` dependency
