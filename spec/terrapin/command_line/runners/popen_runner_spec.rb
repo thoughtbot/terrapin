@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Terrapin::CommandLine::PopenRunner do
   if Terrapin::CommandLine::PopenRunner.supported?
-    it_behaves_like 'a command that does not block'
+    it_behaves_like 'a command that does not block', { :supports_stderr => false }
 
     it 'runs the command given and captures the output in an Output' do
       output = subject.call("echo hello")
