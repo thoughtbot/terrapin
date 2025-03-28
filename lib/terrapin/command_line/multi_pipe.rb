@@ -47,8 +47,8 @@ module Terrapin
       end
 
       def read_streams(output, error)
-        @stdout_output = ""
-        @stderr_output = ""
+        @stdout_output = String.new
+        @stderr_output = String.new
         read_fds = [output, error]
         while !read_fds.empty?
           to_read, = IO.select(read_fds)
