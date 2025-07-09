@@ -14,6 +14,11 @@ Dir[File.dirname(__FILE__) + "/support/**.rb"].each{|support_file| require suppo
 RSpec.configure do |config|
   config.include WithExitstatus
   config.include StubOS
+
+  config.before(:example) do
+    Terrapin::CommandLine.path = nil
+    Terrapin::CommandLine.runner = nil
+  end
 end
 
 def best_logger
