@@ -1,3 +1,8 @@
+New for 1.1.1:
+
+* Fix specs flaking due to leaky path and runner
+* Use String.new to create a mutable string
+
 New for 1.1.0:
 
 * Remove Travis CI configuration
