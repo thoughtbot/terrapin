@@ -52,17 +52,6 @@ describe "When picking a Runner" do
 end
 
 describe 'When running an executable in the supplemental path' do
-  before do
-    path = Pathname.new(File.dirname(__FILE__)) + '..' + 'support'
-    File.open(path + 'ls', 'w'){|f| f.puts "#!/bin/sh\necho overridden-ls\n" }
-    FileUtils.chmod(0755, path + 'ls')
-    Terrapin::CommandLine.path = path
-  end
-
-  after do
-    FileUtils.rm_f("#{Terrapin::CommandLine.path}/ls")
-  end
-
   [
     Terrapin::CommandLine::BackticksRunner,
     Terrapin::CommandLine::PopenRunner,
@@ -72,10 +61,19 @@ describe 'When running an executable in the supplemental path' do
       describe runner_class do
         describe '#run' do
           it 'finds the correct executable' do
+            path = Pathname.new(File.dirname(__FILE__)) + '..' + 'support'
+            File.open(path + 'ls', 'w'){|f| f.puts "#!/bin/sh\necho overridden-ls\n" }
+            FileUtils.chmod(0755, path + 'ls')
+            Terrapin::CommandLine.path = path
             Terrapin::CommandLine.runner = runner_class.new
             command = Terrapin::CommandLine.new('ls')
+
             result = command.run
+
             expect(result.strip).to eq('overridden-ls')
+
+          ensure
+            FileUtils.rm("#{Terrapin::CommandLine.path}/ls")
           end
         end
       end
