@@ -72,7 +72,8 @@ describe 'When running an executable in the supplemental path' do
 
             expect(result.strip).to eq('overridden-ls')
 
-            FileUtils.rm_f("#{Terrapin::CommandLine.path}/ls")
+          ensure
+            FileUtils.rm("#{Terrapin::CommandLine.path}/ls")
           end
         end
       end
