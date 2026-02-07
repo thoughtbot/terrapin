@@ -12,8 +12,7 @@ Gem::Specification.new do |s|
   s.description = "Run shell commands safely, even with user-supplied values"
   s.license = "MIT"
 
-  s.files = `git ls-files`.split("\n")
-  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  s.files = `git ls-files lib`.split($/) + ["LICENSE", "NEWS.md", "README.md"]
   s.require_paths = ["lib"]
 
   s.add_dependency("climate_control")
