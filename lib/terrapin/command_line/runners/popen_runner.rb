@@ -22,6 +22,7 @@ module Terrapin
       private
 
       def with_modified_environment(env, &block)
+        require 'climate_control'
         ClimateControl.modify(env, &block)
       end
     end
