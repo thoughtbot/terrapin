@@ -80,3 +80,14 @@ describe 'When running an executable in the supplemental path' do
     end
   end
 end
+
+describe "When loading Terrapin" do
+  it "does not load climate_control until a runner needs it" do
+    lib = File.expand_path("../../lib", __dir__)
+    script = 'require "terrapin"; print defined?(ClimateControl).inspect'
+
+    output = IO.popen([RbConfig.ruby, "-I", lib, "-e", script], &:read)
+
+    expect(output).to eq("nil")
+  end
+end

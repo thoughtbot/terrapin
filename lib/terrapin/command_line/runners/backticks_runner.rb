@@ -1,7 +1,5 @@
 # coding: UTF-8
 
-require 'climate_control'
-
 module Terrapin
   class CommandLine
     class BackticksRunner
@@ -22,6 +20,7 @@ module Terrapin
       private
 
       def with_modified_environment(env, &block)
+        require 'climate_control'
         ClimateControl.modify(env, &block)
       end
 
